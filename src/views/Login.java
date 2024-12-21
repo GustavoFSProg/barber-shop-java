@@ -160,7 +160,7 @@ public class Login extends javax.swing.JFrame {
         // TODO add your handling code here:
         
         
-    String sql ="select * from clientes where email=? and password=?";
+    String sql ="select * from usuarios  where email=? and password=?";
             
             try{
                 pst = conexao.prepareStatement(sql);

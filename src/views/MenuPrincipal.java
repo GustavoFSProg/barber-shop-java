@@ -5,18 +5,66 @@
  */
 package views;
 
+import br.barbearia.modulo.ClientesDTO;
+import br.barbearia.modulo.ModuloConexao;
+import java.awt.Color;
+import javax.swing.JOptionPane;
+import java.sql.*;
+
 /**
  *
  * @author oem
  */
 public class MenuPrincipal extends javax.swing.JFrame {
+    
+    
+    
+    Connection conexao = null;
+    PreparedStatement pst = null;
+    ResultSet rs = null;
 
     /**
      * Creates new form MenuPrincipal
      */
     public MenuPrincipal() {
         initComponents();
+        
+         conexao = ModuloConexao.conector();
+         
+         listar_clientes();
     }
+    
+        public void  listar_clientes(){
+           String sql ="select * from clientes";
+           
+           ComboBoxClientes.removeAll();
+           
+           
+               try{
+                   
+//                   ClientesDTO clientesOBJ = new ClientesDTO();
+                   
+                   
+                
+                
+                pst = conexao.prepareStatement(sql);
+
+                
+                rs = pst.executeQuery();
+                
+                 while(rs.next()){
+                     
+                                        ComboBoxClientes.addItem(rs.getString(2));
+
+                     
+                 }
+         
+                
+            }catch(Exception e){
+                   JOptionPane.showMessageDialog(null, e);
+                
+            }
+       }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -43,7 +91,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         jFormattedTextField1 = new javax.swing.JFormattedTextField();
         jFormattedTextField2 = new javax.swing.JFormattedTextField();
         jTextField1 = new javax.swing.JTextField();
-        jComboBox1 = new javax.swing.JComboBox();
+        ComboBoxClientes = new javax.swing.JComboBox();
         jComboBox2 = new javax.swing.JComboBox();
         jTextField3 = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
@@ -129,11 +177,25 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
         jTextField1.setFont(new java.awt.Font("Ubuntu", 0, 15)); // NOI18N
 
-        jComboBox1.setFont(new java.awt.Font("Ubuntu", 0, 15)); // NOI18N
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        ComboBoxClientes.setFont(new java.awt.Font("Ubuntu", 0, 15)); // NOI18N
+        ComboBoxClientes.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Selecione o Cliente" }));
+        ComboBoxClientes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ComboBoxClientesActionPerformed(evt);
+            }
+        });
+        ComboBoxClientes.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
+            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
+                ComboBoxClientesAncestorAdded(evt);
+            }
+            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
+            }
+        });
 
         jComboBox2.setFont(new java.awt.Font("Ubuntu", 0, 15)); // NOI18N
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Corte de Cabelo", "Aparar a Barba", "Megahair", "Lavar o Cabelo", "Fazer as unhas" }));
 
         jTextField3.setFont(new java.awt.Font("Ubuntu", 0, 14)); // NOI18N
         jTextField3.setEnabled(false);
@@ -176,13 +238,13 @@ public class MenuPrincipal extends javax.swing.JFrame {
                                                 .addComponent(jLabel5)))
                                         .addGap(18, 18, 18)
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jComboBox1, javax.swing.GroupLayout.Alignment.TRAILING, 0, 292, Short.MAX_VALUE)
+                                            .addComponent(ComboBoxClientes, javax.swing.GroupLayout.Alignment.TRAILING, 0, 280, Short.MAX_VALUE)
                                             .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                             .addComponent(jTextField1)
                                             .addGroup(jPanel1Layout.createSequentialGroup()
                                                 .addGap(9, 9, 9)
                                                 .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                                                .addGap(0, 0, Short.MAX_VALUE)))))
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addGap(68, 68, 68)
@@ -225,7 +287,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
                                             .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addGap(35, 35, 35)
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(ComboBoxClientes, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                     .addComponent(jLabel9))
                                 .addGap(0, 0, Short.MAX_VALUE)))
@@ -268,6 +330,23 @@ public class MenuPrincipal extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+   
+    
+    
+    private void ComboBoxClientesAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_ComboBoxClientesAncestorAdded
+
+        
+    
+            
+        
+    
+// TODO add your handling code here:
+    }//GEN-LAST:event_ComboBoxClientesAncestorAdded
+
+    private void ComboBoxClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComboBoxClientesActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ComboBoxClientesActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -305,10 +384,10 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu Cadastro;
+    private javax.swing.JComboBox ComboBoxClientes;
     private javax.swing.JMenuItem MenuCliente;
     private javax.swing.JMenuItem MenuServico;
     private javax.swing.JButton jButton1;
-    private javax.swing.JComboBox jComboBox1;
     private javax.swing.JComboBox jComboBox2;
     private javax.swing.JFormattedTextField jFormattedTextField1;
     private javax.swing.JFormattedTextField jFormattedTextField2;
