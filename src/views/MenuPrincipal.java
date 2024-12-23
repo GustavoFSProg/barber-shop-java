@@ -199,6 +199,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         Cadastro = new javax.swing.JMenu();
         MenuCliente = new javax.swing.JMenuItem();
         MenuServico = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
 
         setPreferredSize(new java.awt.Dimension(500, 1000));
@@ -213,7 +214,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         obs.setPreferredSize(new java.awt.Dimension(220, 270));
         jScrollPane1.setViewportView(obs);
 
-        jButton1.setBackground(new java.awt.Color(80, 185, 103));
+        jButton1.setBackground(new java.awt.Color(65, 158, 85));
         jButton1.setFont(new java.awt.Font("Ubuntu", 1, 18)); // NOI18N
         jButton1.setForeground(new java.awt.Color(239, 245, 241));
         jButton1.setText("Agendar");
@@ -448,7 +449,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
         jMenuBar1.setPreferredSize(new java.awt.Dimension(130, 27));
 
-        Cadastro.setText("Cadastro");
+        Cadastro.setText("Menu");
 
         MenuCliente.setText("Cliente");
         MenuCliente.addActionListener(new java.awt.event.ActionListener() {
@@ -460,6 +461,14 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
         MenuServico.setText("Serviço");
         Cadastro.add(MenuServico);
+
+        jMenuItem1.setText("Home");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        Cadastro.add(jMenuItem1);
 
         jMenuBar1.add(Cadastro);
 
@@ -511,6 +520,16 @@ public class MenuPrincipal extends javax.swing.JFrame {
         Clientes clientes = new Clientes();
         clientes.setVisible(true);
     }//GEN-LAST:event_MenuClienteActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+   
+  setVisible(false);
+        
+        Main main = new Main();
+main.setVisible(true);
+
+// TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -573,6 +592,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
