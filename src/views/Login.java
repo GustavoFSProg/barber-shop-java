@@ -179,8 +179,8 @@ public class Login extends javax.swing.JFrame {
                  JOptionPane.showMessageDialog(null,"Logado");
 //                           this.dispose();
                  
-                 MenuPrincipal principal = new MenuPrincipal();
-                 principal.setVisible(true);
+                 Main  main = new Main();
+                 main.setVisible(true);
              
 //                                    conexao.close();
 
