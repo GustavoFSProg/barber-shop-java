@@ -181,6 +181,8 @@ public class Login extends javax.swing.JFrame {
                  
                  Main  main = new Main();
                  main.setVisible(true);
+                 
+                 setVisible(false);
              
 //                                    conexao.close();
 
