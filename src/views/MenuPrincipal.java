@@ -88,8 +88,9 @@ public class MenuPrincipal extends javax.swing.JFrame {
        }
         
         public void lista_agenda(){
+//            date_format(data_os,  '%d/%m/%Y  -  %H:%i'
             
-            String sql = "select * from agenda order by cliente";
+            String sql = "select *  from agenda order by cliente";
             
                   try{
                pst=conexao.prepareStatement(sql);
@@ -161,6 +162,76 @@ public class MenuPrincipal extends javax.swing.JFrame {
                 
             }
         }
+        
+          public void setar_campos(){
+            int setar = Tabela.getSelectedRow();
+            
+                Id.setText(Tabela.getModel().getValueAt(setar, 0).toString());
+               Valor.setText(Tabela.getModel().getValueAt(setar, 3).toString());     
+            
+               data.setText(Tabela.getModel().getValueAt(setar, 4).toString());  
+               hora.setText(Tabela.getModel().getValueAt(setar, 5).toString()); 
+               
+                ComboBoxClientes.setSelectedItem(Tabela.getModel().getValueAt(setar, 1).toString());
+                
+                ComboBoxServico.setSelectedItem(Tabela.getModel().getValueAt(setar, 2).toString());
+
+//               FoneField.setText(TabelaClientes.getModel().getValueAt(setar, 3).toString());
+//               EnderecoField.setText(TabelaClientes.getModel().getValueAt(setar, 4).toString());
+//               
+//               AddButton.setEnabled(false);
+
+        }
+          
+              
+       private void update(){
+           
+         String sql = "update agenda  set  servico =?, valor=? , data=? , hora=?, obs=?  where  id=?";
+//             
+//          
+             try{
+                 
+            pst= conexao.prepareStatement(sql);
+//            pst.setString(1, ComboBoxClientes.getSelectedItem().toString()); 
+            pst.setString(1, ComboBoxServico.getSelectedItem().toString());   
+            pst.setString(2, Valor.getText());       
+            pst.setString(3, data.getText());        
+            pst.setString(4, hora.getText());       
+            pst.setString(5, obs.getText()); 
+            pst.setString(6, Id.getText());
+             
+             
+
+//      if(Equipamento.getText().isEmpty()){
+//                JOptionPane.showMessageDialog(null,"Preencha todos os campos obrigatórios!");
+//                
+//                
+//            }else{
+            
+             int adicionado =     pst.executeUpdate();
+            
+                          
+
+            if(adicionado > 0){
+                
+               JOptionPane.showMessageDialog(null,"OS  Atualizado com sucesso!");
+//              
+//               
+//               limpar_campos();
+//                 
+//                  AddButton.setEnabled(true);
+//                     UpdateButton.setEnabled(false);
+//                     deleteButton.setEnabled(false);
+////                     Imprimir.setEnabled(false);
+              
+            }
+//            }
+             }catch (Exception e){
+            JOptionPane.showMessageDialog(null, e);
+        }
+//    
+           
+       }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -194,6 +265,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         ClienteField = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
+        jButton3 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         Cadastro = new javax.swing.JMenu();
@@ -202,6 +274,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
 
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(500, 1000));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -246,6 +319,16 @@ public class MenuPrincipal extends javax.swing.JFrame {
         ));
         Tabela.setIntercellSpacing(new java.awt.Dimension(2, 2));
         Tabela.setRowHeight(25);
+        Tabela.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TabelaMouseClicked(evt);
+            }
+        });
+        Tabela.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                TabelaKeyReleased(evt);
+            }
+        });
         jScrollPane2.setViewportView(Tabela);
 
         jLabel3.setFont(new java.awt.Font("Ubuntu", 1, 24)); // NOI18N
@@ -337,6 +420,13 @@ public class MenuPrincipal extends javax.swing.JFrame {
         jLabel11.setForeground(new java.awt.Color(252, 240, 240));
         jLabel11.setText("Observações");
 
+        jButton3.setText("ATUALIZAR");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -359,10 +449,14 @@ public class MenuPrincipal extends javax.swing.JFrame {
                                         .addComponent(jLabel7)))
                                 .addGap(32, 32, 32)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(hora, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(data, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(ComboBoxServico, javax.swing.GroupLayout.PREFERRED_SIZE, 376, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(Valor, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 376, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(data, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(ComboBoxServico, javax.swing.GroupLayout.PREFERRED_SIZE, 376, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(Valor, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 376, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(hora, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(99, 99, 99)
+                                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -430,7 +524,8 @@ public class MenuPrincipal extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(hora, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel8)))
+                            .addComponent(jLabel8)
+                            .addComponent(jButton3)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(391, 391, 391)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -531,6 +626,21 @@ main.setVisible(true);
 // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
+    private void TabelaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TabelaKeyReleased
+        // TODO add your handling code here:
+        JOptionPane.showMessageDialog(null, "Pegou");
+    }//GEN-LAST:event_TabelaKeyReleased
+
+    private void TabelaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TabelaMouseClicked
+        // TODO add your handling code here:
+        
+        setar_campos();
+    }//GEN-LAST:event_TabelaMouseClicked
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+   update();        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton3ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -580,6 +690,7 @@ main.setVisible(true);
     private javax.swing.JFormattedTextField hora;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
